@@ -23,13 +23,12 @@ class _TabsScreenState extends State<TabsScreen> {
                   Tab(text: "Completed"),
                 ],
               ),
-
               Expanded(
                 child: TabBarView(
                   children: [
-                    Center(child: Text("All")),
-                    Center(child: Text("Pending")),
-                    Center(child: Text("Completed")),
+                    Center(child: Text("all")),
+                    Center(child: Text("pending")),
+                    Center(child: Text("completed")),
                   ],
                 ),
               ),
