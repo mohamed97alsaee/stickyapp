@@ -10,6 +10,33 @@ class TabsScreen extends StatefulWidget {
 class _TabsScreenState extends State<TabsScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(body: Center(child: Text("TABS")));
+    return Scaffold(
+      body: DefaultTabController(
+        length: 3,
+        child: SafeArea(
+          child: Column(
+            children: [
+              TabBar(
+                tabs: [
+                  Tab(text: "All"),
+                  Tab(text: "Pending"),
+                  Tab(text: "Completed"),
+                ],
+              ),
+
+              Expanded(
+                child: TabBarView(
+                  children: [
+                    Center(child: Text("All")),
+                    Center(child: Text("Pending")),
+                    Center(child: Text("Completed")),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
