@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stickyapp/models/task_model.dart';
+import 'package:stickyapp/widgets/task_card.dart';
 
 class TabsScreen extends StatefulWidget {
   const TabsScreen({super.key});
@@ -19,6 +20,7 @@ class _TabsScreenState extends State<TabsScreen> {
       title: "Lesson 2",
       subtitle: "this is lesson subtitle 2",
       createdAt: DateTime.now(),
+      isCompleted: true,
     ),
     TaskModel(
       title: "Lesson 3",
@@ -55,7 +57,30 @@ class _TabsScreenState extends State<TabsScreen> {
               Expanded(
                 child: TabBarView(
                   children: [
-                    Center(child: Text("all")),
+                    Column(
+                      children: [
+                        TaskCard(
+                          taskModel: allTasks[0],
+                          onSwitch: () {
+                            setState(() {
+                              allTasks[0].isCompleted =
+                                  !allTasks[0].isCompleted;
+                            });
+                          },
+                          onHold: () {},
+                        ),
+                        TaskCard(
+                          taskModel: allTasks[1],
+                          onSwitch: () {
+                            setState(() {
+                              allTasks[1].isCompleted =
+                                  !allTasks[1].isCompleted;
+                            });
+                          },
+                          onHold: () {},
+                        ),
+                      ],
+                    ),
                     Center(child: Text("pending")),
                     Center(child: Text("completed")),
                   ],
