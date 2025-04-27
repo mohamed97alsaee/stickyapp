@@ -37,6 +37,11 @@ class _TabsScreenState extends State<TabsScreen> {
       subtitle: "this is lesson subtitle 5",
       createdAt: DateTime.now(),
     ),
+    TaskModel(
+      title: "Lesson 6",
+      subtitle: "this is lesson subtitle 6",
+      createdAt: DateTime.now(),
+    ),
   ];
 
   @override
@@ -57,32 +62,55 @@ class _TabsScreenState extends State<TabsScreen> {
               Expanded(
                 child: TabBarView(
                   children: [
-                    Column(
-                      children: [
-                        TaskCard(
-                          taskModel: allTasks[0],
+                    ListView.builder(
+                      itemCount: allTasks.length,
+                      itemBuilder: (context, index) {
+                        return TaskCard(
+                          taskModel: allTasks[index],
                           onSwitch: () {
                             setState(() {
-                              allTasks[0].isCompleted =
-                                  !allTasks[0].isCompleted;
+                              allTasks[index].isCompleted =
+                                  !allTasks[index].isCompleted;
                             });
                           },
                           onHold: () {},
-                        ),
-                        TaskCard(
-                          taskModel: allTasks[1],
-                          onSwitch: () {
-                            setState(() {
-                              allTasks[1].isCompleted =
-                                  !allTasks[1].isCompleted;
-                            });
-                          },
-                          onHold: () {},
-                        ),
-                      ],
+                        );
+                      },
                     ),
-                    Center(child: Text("pending")),
-                    Center(child: Text("completed")),
+                    ListView.builder(
+                      itemCount: allTasks.length,
+                      itemBuilder: (context, index) {
+                        return allTasks[index].isCompleted
+                            ? SizedBox()
+                            : TaskCard(
+                              taskModel: allTasks[index],
+                              onSwitch: () {
+                                setState(() {
+                                  allTasks[index].isCompleted =
+                                      !allTasks[index].isCompleted;
+                                });
+                              },
+                              onHold: () {},
+                            );
+                      },
+                    ),
+                    ListView.builder(
+                      itemCount: allTasks.length,
+                      itemBuilder: (context, index) {
+                        return allTasks[index].isCompleted
+                            ? TaskCard(
+                              taskModel: allTasks[index],
+                              onSwitch: () {
+                                setState(() {
+                                  allTasks[index].isCompleted =
+                                      !allTasks[index].isCompleted;
+                                });
+                              },
+                              onHold: () {},
+                            )
+                            : SizedBox();
+                      },
+                    ),
                   ],
                 ),
               ),
