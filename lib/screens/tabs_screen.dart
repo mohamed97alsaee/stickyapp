@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:stickyapp/models/task_model.dart';
 import 'package:stickyapp/providers/tasks_provider.dart';
 import 'package:stickyapp/widgets/adding_dialog.dart';
 import 'package:stickyapp/widgets/delete_dialog.dart';
@@ -14,6 +13,12 @@ class TabsScreen extends StatefulWidget {
 }
 
 class _TabsScreenState extends State<TabsScreen> {
+  @override
+  void initState() {
+    Provider.of<TasksProvider>(context, listen: false).getTasksFromStorage();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<TasksProvider>(

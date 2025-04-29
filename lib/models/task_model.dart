@@ -21,14 +21,14 @@ class TaskModel {
   factory TaskModel.fromJson(Map<String, dynamic> json) => TaskModel(
     title: json["title"],
     subtitle: json["subtitle"],
-    createdAt: json["created_at"],
+    createdAt: DateTime.parse(json["created_at"]),
     isCompleted: json["is_completed"],
   );
 
   Map<String, dynamic> toJson() => {
     "title": title,
     "subtitle": subtitle,
-    "created_at": createdAt,
+    "created_at": createdAt.toIso8601String(),
     "is_completed": isCompleted,
   };
 }

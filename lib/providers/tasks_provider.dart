@@ -1,53 +1,45 @@
+import 'dart:convert';
+
 import 'package:flutter/widgets.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stickyapp/models/task_model.dart';
 
 class TasksProvider with ChangeNotifier {
-  List<TaskModel> allTasks = [
-    TaskModel(
-      title: "Lesson 1",
-      subtitle: "this is lesson subtitle 1",
-      createdAt: DateTime.now(),
-    ),
-    TaskModel(
-      title: "Lesson 2",
-      subtitle: "this is lesson subtitle 2",
-      createdAt: DateTime.now(),
-      isCompleted: true,
-    ),
-    TaskModel(
-      title: "Lesson 3",
-      subtitle: "this is lesson subtitle 3",
-      createdAt: DateTime.now(),
-    ),
-    TaskModel(
-      title: "Lesson 4",
-      subtitle: "this is lesson subtitle 4",
-      createdAt: DateTime.now(),
-    ),
-    TaskModel(
-      title: "Lesson 5",
-      subtitle: "this is lesson subtitle 5",
-      createdAt: DateTime.now(),
-    ),
-    TaskModel(
-      title: "Lesson 6",
-      subtitle: "this is lesson subtitle 6",
-      createdAt: DateTime.now(),
-    ),
-  ];
+  List<TaskModel> allTasks = [];
 
   addNewTask(TaskModel tm) {
     allTasks.add(tm);
-    notifyListeners();
+    storeTasksToStorage();
   }
 
   switchStatus(int index) {
     allTasks[index].isCompleted = !allTasks[index].isCompleted;
-    notifyListeners();
+    storeTasksToStorage();
   }
 
   deleteTask(TaskModel task) {
     allTasks.remove(task);
+    storeTasksToStorage();
+  }
+
+  storeTasksToStorage() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var jsonData = allTasks.map((e) => e.toJson()).toList();
+    var encodedData = jsonEncode(jsonData);
+    prefs.setString("tasks", encodedData);
+    getTasksFromStorage();
+  }
+
+  getTasksFromStorage() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? data = prefs.getString("tasks");
+    if (data != null) {
+      var decodedData = jsonDecode(data);
+
+      allTasks = List<TaskModel>.from(
+        decodedData.map((e) => TaskModel.fromJson(e)),
+      );
+    }
     notifyListeners();
   }
 }
