@@ -20,7 +20,7 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Image.asset("assets/logo.png", width: size.width * 0.5)
             .animate(
               onComplete: (v) {
-                Navigator.push(
+                Navigator.pushReplacement(
                   context,
                   CupertinoPageRoute(builder: (context) => TabsScreen()),
                 );

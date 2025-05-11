@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:stickyapp/providers/dark_model_provider.dart';
 import 'package:stickyapp/providers/tasks_provider.dart';
 import 'package:stickyapp/widgets/adding_dialog.dart';
 import 'package:stickyapp/widgets/delete_dialog.dart';
@@ -21,9 +22,20 @@ class _TabsScreenState extends State<TabsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<TasksProvider>(
-      builder: (context, tasksConsumer, _) {
+    return Consumer2<TasksProvider, DarkModelProvider>(
+      builder: (context, tasksConsumer, mode, _) {
         return Scaffold(
+          appBar: AppBar(
+            title: Text("Sticky App"),
+            actions: [
+              IconButton(
+                onPressed: () {
+                  mode.switchMode();
+                },
+                icon: Icon(mode.isDark ? Icons.light_mode : Icons.dark_mode),
+              ),
+            ],
+          ),
           body: DefaultTabController(
             length: 3,
             child: SafeArea(
@@ -115,6 +127,10 @@ class _TabsScreenState extends State<TabsScreen> {
             child: Icon(Icons.add),
 
             onPressed: () {
+              // Provider.of<DarkModelProvider>(
+              //   context,
+              //   listen: false,
+              // ).switchMode();
               showDialog(
                 context: context,
                 builder: (context) => AddingDialog(),
